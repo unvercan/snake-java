@@ -4,37 +4,68 @@
 
   <groupId>tr.unvercanunlu.snake</groupId>
   <artifactId>snake</artifactId>
-  <version>0.1</version>
+  <version>1.0</version>
   <packaging>jar</packaging>
 
   <name>snake</name>
 
   <properties>
+    <!-- java version -->
+    <maven.compiler.source>17</maven.compiler.source>
+    <maven.compiler.target>17</maven.compiler.target>
+    <project.java.version>17</project.java.version>
+
+    <!-- encoding -->
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+    <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
+
+    <!-- dependency version -->
+    <lombok.version>1.18.36</lombok.version>
+    <maven.compiler.version>3.13.0</maven.compiler.version>
+    <maven.jar.version>3.4.2</maven.jar.version>
   </properties>
 
   <dependencies>
     <dependency>
-      <groupId>junit</groupId>
-      <artifactId>junit</artifactId>
-      <version>3.8.1</version>
-      <scope>test</scope>
-    </dependency>
-
-    <dependency>
+      <!-- lombok -->
       <groupId>org.projectlombok</groupId>
       <artifactId>lombok</artifactId>
-      <version>1.18.36</version>
+      <version>${lombok.version}</version>
     </dependency>
   </dependencies>
+
   <build>
     <plugins>
+
+      <!-- complies with lombok -->
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
+        <version>${maven.compiler.version}</version>
         <configuration>
-          <source>14</source>
-          <target>14</target>
+          <annotationProcessorPaths>
+            <path>
+              <groupId>org.projectlombok</groupId>
+              <artifactId>lombok</artifactId>
+              <version>${lombok.version}</version>
+            </path>
+          </annotationProcessorPaths>
+        </configuration>
+      </plugin>
+
+      <!-- adding manifest to jar -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <version>${maven.jar.version}</version>
+        <configuration>
+          <archive>
+            <!-- manifest for jar -->
+            <manifest>
+              <addClasspath>true</addClasspath>
+              <mainClass>tr.unvercanunlu.snake.App</mainClass>
+            </manifest>
+          </archive>
         </configuration>
       </plugin>
     </plugins>
