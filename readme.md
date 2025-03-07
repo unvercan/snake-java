@@ -83,6 +83,10 @@ Now you can play the Snake game directly in the terminal inside the Docker conta
 │      ├── Game.java              # Game logic
 │      ├── BoardConfig.java       # Board size configuration
 │      ├── Helper.java            # Utility methods
+│      ├── util                   # Package for Utility classes
+│          ├── ConsoleUtil.java   # Console related Utility class
+│          ├── InputUtil.java     # Input related Utility class
+│          ├── NumberUtil.java    # Number related Utility class
 │      ├── constant               # Package for Enums
 │          ├── Tile.java          # Enum for board tiles
 │          ├── Status.java        # Enum for game statuses
