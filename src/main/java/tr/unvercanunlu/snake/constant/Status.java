@@ -1,6 +1,5 @@
 package tr.unvercanunlu.snake.constant;
 
-import tr.unvercanunlu.snake.BoardConfig;
 
 public enum Status {
 
@@ -8,13 +7,13 @@ public enum Status {
   WIN,
   LOSE;
 
-  public static Status resolve(Action action, int snakeLength) {
+  public static Status resolve(Action action, int snakeLength, int boardWidth, int boardHeight) {
     // default
     Status status = Status.PLAY;
 
     if (checkCollusion(action)) {
       status = Status.LOSE;
-    } else if (isWin(action, snakeLength)) {
+    } else if (isWin(action, snakeLength, boardWidth, boardHeight)) {
       status = Status.WIN;
     }
 
@@ -26,13 +25,13 @@ public enum Status {
         || action.equals(Action.COLLIDE_WITH_SELF);
   }
 
-  private static boolean isSnakeLengthReachedMax(int snakeLength) {
-    return snakeLength == ((BoardConfig.WIDTH - 1) * (BoardConfig.HEIGHT - 1));
+  private static boolean isSnakeLengthReachedMax(int snakeLength, int boardWidth, int boardHeight) {
+    return snakeLength == ((boardWidth - 1) * (boardHeight - 1));
   }
 
-  private static boolean isWin(Action action, int snakeLength) {
+  private static boolean isWin(Action action, int snakeLength, int boardWidth, int boardHeight) {
     return !checkCollusion(action)
-        && isSnakeLengthReachedMax(snakeLength);
+        && isSnakeLengthReachedMax(snakeLength, boardWidth, boardHeight);
   }
 
 }

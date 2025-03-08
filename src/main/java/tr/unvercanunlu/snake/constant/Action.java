@@ -1,7 +1,5 @@
 package tr.unvercanunlu.snake.constant;
 
-import tr.unvercanunlu.snake.BoardConfig;
-
 public enum Action {
 
   EAT_FOOD,
@@ -9,11 +7,11 @@ public enum Action {
   COLLIDE_WITH_WALL,
   MOVE;
 
-  public static Action resolve(int[] snakeX, int[] snakeY, int snakeLength, int foodX, int foodY) {
+  public static Action resolve(int[] snakeX, int[] snakeY, int snakeLength, int foodX, int foodY, int boardWidth, int boardHeight) {
     // default
     Action action = Action.MOVE;
 
-    if (isSnakeCollidingWithWall(snakeX, snakeY)) {
+    if (isSnakeCollidingWithWall(snakeX, snakeY, boardWidth, boardHeight)) {
       action = Action.COLLIDE_WITH_WALL;
     } else if (isSnakeCollidingWithSelf(snakeX, snakeY, snakeLength)) {
       action = Action.COLLIDE_WITH_SELF;
@@ -24,9 +22,9 @@ public enum Action {
     return action;
   }
 
-  private static boolean isSnakeCollidingWithWall(int[] snakeX, int[] snakeY) {
-    return (snakeX[0] == (BoardConfig.WIDTH - 1))
-        || (snakeY[0] == (BoardConfig.HEIGHT - 1))
+  private static boolean isSnakeCollidingWithWall(int[] snakeX, int[] snakeY, int boardWidth, int boardHeight) {
+    return (snakeX[0] == (boardWidth - 1))
+        || (snakeY[0] == (boardHeight - 1))
         || (snakeX[0] == 0)
         || (snakeY[0] == 0);
   }

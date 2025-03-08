@@ -30,8 +30,13 @@ public class Game {
 
   // board
   private Tile[][] board;
+  private final int boardWidth;
+  private final int boardHeight;
 
-  public Game() {
+  public Game(int boardWidth, int boardHeight) {
+    this.boardWidth = boardWidth;
+    this.boardHeight = boardHeight;
+
     initGame();
   }
 
@@ -61,7 +66,7 @@ public class Game {
   }
 
   public void initBoard() {
-    board = new Tile[BoardConfig.HEIGHT][BoardConfig.WIDTH];
+    board = new Tile[boardHeight][boardWidth];
   }
 
   public void resetFood() {
@@ -90,12 +95,12 @@ public class Game {
   }
 
   public void initSnake() {
-    snakeX = new int[(BoardConfig.WIDTH - 1) * (BoardConfig.HEIGHT - 1)];
-    snakeY = new int[(BoardConfig.WIDTH - 1) * (BoardConfig.HEIGHT - 1)];
+    snakeX = new int[(boardWidth - 1) * (boardHeight - 1)];
+    snakeY = new int[(boardWidth - 1) * (boardHeight - 1)];
   }
 
   public void resetSnake() {
-    for (int i = 0; i < (BoardConfig.WIDTH - 1) * (BoardConfig.HEIGHT - 1); i++) {
+    for (int i = 0; i < (boardWidth - 1) * (boardHeight - 1); i++) {
       snakeX[i] = -1;
       snakeY[i] = -1;
     }
@@ -103,24 +108,24 @@ public class Game {
 
   // reset board by filling with empty tiles
   public void resetBoard() {
-    for (int y = 0; y < BoardConfig.HEIGHT - 1; y++) {
-      for (int x = 0; x < BoardConfig.WIDTH - 1; x++) {
+    for (int y = 0; y < boardHeight - 1; y++) {
+      for (int x = 0; x < boardWidth - 1; x++) {
         board[y][x] = Tile.EMPTY;
       }
     }
   }
 
   public void drawVerticalWallsOnBoard() {
-    for (int y = 0; y < BoardConfig.HEIGHT; y++) {
+    for (int y = 0; y < boardHeight; y++) {
       board[y][0] = Tile.WALL;
-      board[y][BoardConfig.WIDTH - 1] = Tile.WALL;
+      board[y][boardWidth - 1] = Tile.WALL;
     }
   }
 
   public void drawHorizontalWallsOnBoard() {
-    for (int x = 0; x < BoardConfig.WIDTH; x++) {
+    for (int x = 0; x < boardWidth; x++) {
       board[0][x] = Tile.WALL;
-      board[BoardConfig.HEIGHT - 1][x] = Tile.WALL;
+      board[boardHeight - 1][x] = Tile.WALL;
     }
   }
 
@@ -148,7 +153,6 @@ public class Game {
     drawSnakeHeadOnBoard();
   }
 
-  // draw walls, food, and snake (head and tails) tiles on board
   public void drawTilesOnBoard() {
     drawWallsOnBoard();
     drawFoodOnBoard();
@@ -156,18 +160,18 @@ public class Game {
   }
 
   public void updateAction() {
-    action = Action.resolve(snakeX, snakeY, snakeLength, foodX, foodY);
+    action = Action.resolve(snakeX, snakeY, snakeLength, foodX, foodY, boardWidth, boardHeight);
   }
 
   public void updateStatus() {
-    status = Status.resolve(action, snakeLength);
+    status = Status.resolve(action, snakeLength, boardWidth, boardHeight);
   }
 
   public String convertBoardToText() {
     StringBuilder builder = new StringBuilder();
 
-    for (int y = 0; y < BoardConfig.HEIGHT; y++) {
-      for (int x = 0; x < BoardConfig.WIDTH; x++) {
+    for (int y = 0; y < boardHeight; y++) {
+      for (int x = 0; x < boardWidth; x++) {
         builder.append(board[y][x].getRepresent());
       }
 
@@ -205,13 +209,13 @@ public class Game {
   }
 
   public void generateSnakeHead() {
-    snakeX[0] = NumberUtil.generateNumberExcluding(1, (BoardConfig.WIDTH - 2), foodX);
-    snakeY[0] = NumberUtil.generateNumberExcluding(1, (BoardConfig.HEIGHT - 2), foodY);
+    snakeX[0] = NumberUtil.generateNumberExcluding(1, (boardWidth - 2), foodX);
+    snakeY[0] = NumberUtil.generateNumberExcluding(1, (boardHeight - 2), foodY);
   }
 
   public void generateFood() {
-    foodX = NumberUtil.generateNumberExcluding(1, (BoardConfig.WIDTH - 2), snakeX);
-    foodY = NumberUtil.generateNumberExcluding(1, (BoardConfig.HEIGHT - 2), snakeY);
+    foodX = NumberUtil.generateNumberExcluding(1, (boardWidth - 2), snakeX);
+    foodY = NumberUtil.generateNumberExcluding(1, (boardHeight - 2), snakeY);
   }
 
   public void playAction() {
@@ -223,7 +227,7 @@ public class Game {
       Input input = InputUtil.getValidInput();
       currentMove = Move.resolve(input);
     } else {
-      Input input = InputUtil.getInput(4, TimeUnit.SECONDS, Input.UNREGISTERED);
+      Input input = InputUtil.getValidInputTimeout(4, TimeUnit.SECONDS, Input.UNREGISTERED);
       currentMove = Move.resolve(input);
 
       // using last move

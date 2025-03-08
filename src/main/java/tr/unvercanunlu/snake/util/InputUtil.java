@@ -31,7 +31,7 @@ public class InputUtil {
     return key;
   }
 
-  public static Input getInput(long timeout, TimeUnit unit, Input defaultInput) {
+  public static Input getValidInputTimeout(long timeout, TimeUnit unit, Input defaultInput) {
     Runnable keyReaderTask = () -> {
       inputQueue.clear();
 

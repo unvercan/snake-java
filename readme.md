@@ -16,8 +16,9 @@ This is a simple console-based Snake game written in Java. The player controls a
 
 ## Technologies Used
 
-- **Java** (Core logic and game implementation)
-- **Lombok** (Used for annotations such as `@Getter`, `@RequiredArgsConstructor`, etc.)
+- **Java**   (17 or later)
+- **Maven**  (if building the project manually)
+- **Docker** (if running inside a container)
 
 ## How to Play
 
@@ -45,8 +46,8 @@ This is a simple console-based Snake game written in Java. The player controls a
 
 1. Clone the repository:
    ```sh
-   git clone <repository_url>
-   cd snake-game
+   git clone https://github.com/unvercan/snake.git
+   cd snake
    ```
 2. Build the project using Maven:
    ```sh
@@ -55,22 +56,26 @@ This is a simple console-based Snake game written in Java. The player controls a
     - This command will clean any previous builds and package the project into a JAR file.
 3. Run the game using the JAR file:
    ```sh
-   java -jar target/snake.jar
+   java -jar target/snake-1.0.jar boardWidth=15 boardHeight=8
    ```
+   - `boardWidth`: Defines the board width.
+   - `boardHeight`: Defines the board height.
    
 ### Running the Game (Docker)
 
 1. **Build the Docker Image:**
    ```sh
-   docker build -t snake-game .
+   docker build -t snake .
    ```
 2. **Run the Docker Container:**
    ```sh
-   docker run --rm -it snake-game
+   docker run --rm -it -e BOARD_WIDTH=15 -e BOARD_HEIGHT=8 snake
    ```
-    - `-t` adds the name of the image while building the Docker file.
-    - `--rm` ensures the container is removed after it stops.
-    - `-it` keeps the container interactive for user input.
+   - `-t` adds the name of the image while building the Docker file.
+   - `--rm` ensures the container is removed after it stops.
+   - `-it` keeps the container interactive for user input.
+   - `-e BOARD_WIDTH=15`: Sets the board width inside the container.
+   - `-e BOARD_HEIGHT=8`: Sets the board height inside the container.
 
 Now you can play the Snake game directly in the terminal inside the Docker container!
 
@@ -79,10 +84,8 @@ Now you can play the Snake game directly in the terminal inside the Docker conta
 ```
 ├── src
 │   ├── tr.unvercanunlu.snake     # Main package
-│      ├── App.java               # Main entry point
+│      ├── App.java               # Main Application entry point
 │      ├── Game.java              # Game logic
-│      ├── BoardConfig.java       # Board size configuration
-│      ├── Helper.java            # Utility methods
 │      ├── util                   # Package for Utility classes
 │          ├── ConsoleUtil.java   # Console related Utility class
 │          ├── InputUtil.java     # Input related Utility class
@@ -104,4 +107,3 @@ This project is open-source and available under the **MIT License**.
 ## Author
 
 Ünver Can Ünlü
-
