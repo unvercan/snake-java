@@ -20,10 +20,13 @@ public class InputUtil {
     Character key = null;
 
     try {
-      key = reader.readLine()
-          .trim()
-          .toUpperCase()
-          .charAt(0);
+      key = Optional.ofNullable(
+              reader.readLine()
+          ).map(String::trim)
+          .map(String::toUpperCase)
+          .filter(s -> !s.isBlank())
+          .map(s -> s.charAt(0))
+          .orElse(null);
     } catch (IOException e) {
       e.printStackTrace();
     }
